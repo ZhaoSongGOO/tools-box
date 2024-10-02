@@ -1,0 +1,7 @@
+.vscode
+__pycache__
+build
+dist
+dependence_sync.egg-info
+.DS_Store
+.idea
