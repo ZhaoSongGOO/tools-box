@@ -7,14 +7,15 @@
 
 import setuptools
 
-from core.env.config import VERSION
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+version = "0.0.1"
+
 setuptools.setup(
-    name="cli-framework",
-    version=VERSION,
+    name="plugin-cli",
+    version=version,
     author="Song Zhao",
     author_email="zhaosonggo@163.com",
     description="Rapidly Build a Plugin-Based CLI Tool Framework",

@@ -1,10 +1,10 @@
 # Copyright 2024 zhaosonggo@gmail.com, All rights reserved.
 # Licensed under the Apache License Version 2.0 that can be found in the
 # LICENSE file in the root directory of this source tree
-from args_parser.args_parser import ArgsParser
-from args_parser.cli_description import CLIDescription
-from plugin.plugin import Plugin
-from plugin.plugin_manager import PluginManager
+from plugin_cli.args_parser.args_parser import ArgsParser
+from plugin_cli.args_parser.args_parser import CLIDescription
+from plugin_cli.plugin.plugin import Plugin
+from plugin_cli.plugin.plugin_manager import PluginManager
 
 
 class CustomPlugin(Plugin):

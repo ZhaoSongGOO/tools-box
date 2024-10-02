@@ -4,8 +4,8 @@
 
 import argparse
 
-from args_parser.cli_description import CLIDescription
-from plugin.plugin import Plugin
+from plugin_cli.args_parser.cli_description import CLIDescription
+from plugin_cli.plugin.plugin import Plugin
 
 
 class ArgsParser:
