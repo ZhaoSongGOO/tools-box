@@ -11,7 +11,7 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-version = "0.0.1"
+version = "0.0.2"
 
 setuptools.setup(
     name="plugin-cli",

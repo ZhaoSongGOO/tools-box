@@ -2,6 +2,6 @@
 __pycache__
 build
 dist
-dependence_sync.egg-info
+plugin_cli.egg-info
 .DS_Store
 .idea
