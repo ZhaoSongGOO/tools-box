@@ -16,4 +16,4 @@ class PluginManager:
 
     def dispatch_args(self, args):
         plugin = self.plugins[args.plugin]
-        plugin.accept(args)
+        return plugin.accept(args)
