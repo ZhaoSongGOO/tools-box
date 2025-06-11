@@ -15,7 +15,6 @@ def AutoRegister(name: str = None):
     def decorator(cls: Type[T]) -> Type[T]:
         if not issubclass(cls, Plugin):
             raise TypeError(f"{cls.__name__} is not herient from Plugin!")
-        print(cls.__name__)
         plugin_name = name if name is not None else cls.__name__
         PluginManager.register_plugin(plugin_name, cls)
 
