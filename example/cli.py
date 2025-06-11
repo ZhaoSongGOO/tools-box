@@ -5,6 +5,7 @@ from plugin_cli.args_parser.args_parser import ArgsParser
 from plugin_cli.args_parser.args_parser import CLIDescription
 from plugin_cli.plugin.plugin import Plugin
 from plugin_cli.plugin.plugin_manager import PluginManager
+from plugin_cli.base.log import Log
 
 
 class CustomPlugin(Plugin):
@@ -26,6 +27,8 @@ def version_callback():
 
 
 def main():
+    Log.TAG = "Example"
+    Log.info("Welcome use Plugin-CLI")
     plugin_manager = PluginManager()
     plugin_manager.register_plugin(CustomPlugin())
     description = CLIDescription("demo-cli", "This is a demo cli!", version_callback)
