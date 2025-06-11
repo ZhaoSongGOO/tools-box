@@ -4,16 +4,23 @@
 # Licensed under the Apache License Version 2.0 that can be found in the
 # LICENSE file in the root directory of this source tree
 
+from typing import Type
+from plugin_cli.base.result import Result
 from plugin_cli.plugin.plugin import Plugin
 
 
 class PluginManager:
-    def __init__(self):
-        self.plugins = {}
+    plugins_class = {}
+    plugins_instances = {}
 
-    def register_plugin(self, plugin: Plugin):
-        self.plugins[plugin.name] = plugin
+    @staticmethod
+    def register_plugin(name, plugin: Type[Plugin]):
+        PluginManager.plugins_class[name] = plugin
+        plugin_instance = plugin()
+        plugin_instance.name = name
+        PluginManager.plugins_instances[name] = plugin_instance
 
-    def dispatch_args(self, args):
-        plugin = self.plugins[args.plugin]
+    @staticmethod
+    def dispatch_args(args) -> Result:
+        plugin = PluginManager.plugins_instances[args.plugin]
         return plugin.accept(args)

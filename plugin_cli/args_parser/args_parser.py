@@ -5,7 +5,7 @@
 import argparse
 
 from plugin_cli.args_parser.cli_description import CLIDescription
-from plugin_cli.plugin.plugin import Plugin
+from plugin_cli.plugin.plugin_manager import PluginManager
 
 
 class ArgsParser:
@@ -22,10 +22,11 @@ class ArgsParser:
             help=f"print the {description.name} version number and exit (also --version)",
         )
 
-    def init_subparsers(self, plugins: dict[str, Plugin]):
-        for name in plugins:
-            subparser = self.subparsers.add_parser(name, help=plugins[name].help())
-            plugins[name].build_command_args(subparser)
+    def init_subparsers(self):
+        for name in PluginManager.plugins_instances.keys():
+            plugin_instance = PluginManager.plugins_instances[name]
+            subparser = self.subparsers.add_parser(name, help=plugin_instance.help())
+            plugin_instance.build_command_args(subparser)
 
     def parse_args(self):
         return self.parser.parse_args()

@@ -8,8 +8,8 @@ from plugin_cli.base.result import Result
 
 
 class Plugin:
-    def __init__(self, name):
-        self.name = name
+    def __init__(self):
+        self.name = None
 
     def help(self) -> str:
         pass
