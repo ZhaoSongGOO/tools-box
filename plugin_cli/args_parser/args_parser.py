@@ -24,7 +24,7 @@ class ArgsParser:
 
     def init_subparsers(self):
         for name in PluginManager.plugins_instances.keys():
-            plugin_instance = PluginManager.plugins_instances[name]
+            plugin_instance = PluginManager.plugins_instances[name]["instance"]
             subparser = self.subparsers.add_parser(name, help=plugin_instance.help())
             plugin_instance.build_command_args(subparser)
 

@@ -7,6 +7,13 @@
 from plugin_cli.base.result import Result
 
 
+class PluginInfo:
+    def __init__(self, name, path, internal):
+        self.name = name
+        self.path = path
+        self.internal = internal
+
+
 class Plugin:
     def __init__(self):
         self.name = None
