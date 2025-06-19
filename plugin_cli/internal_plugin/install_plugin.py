@@ -6,16 +6,15 @@ import os
 import yaml
 import shutil
 
+from plugin_cli.base.log import Log
 from plugin_cli.base.result import Err, Ok
 from plugin_cli.plugin.plugin import Plugin
 from plugin_cli.plugin.plugin_auto_register import AutoRegister
+from plugin_cli.env.env import ToolsBoxEnv, env
 
-PACKAGE_SOURCE = {
-    "tools-box-package": "https://github.com/ZhaoSongGOO/tools-box-package.git"
-}
-PACKAGE_STORE = os.path.expanduser("~/.tools-box/cache")
 
-PLUGIN_PATH = os.path.expanduser("~/.tools-box/plugins")
+def version_key(v):
+    return tuple(map(int, v.split(".")))
 
 
 @AutoRegister(name="install")
@@ -26,25 +25,40 @@ class InstallPlugin(Plugin):
     # 当用户调用此插件时执行的方法
     def accept(self, args):
         plugin_name = args.name
-        for source in PACKAGE_SOURCE.keys():
-            index_path = os.path.join(PACKAGE_STORE, source, "index.yml")
+        version = args.version
+        for source in env.config.sources.keys():
+            index_path = os.path.join(ToolsBoxEnv.CACHE_PATH, source, "index.yml")
             if not os.path.exists(index_path):
                 continue
             with open(index_path, "r") as file:
                 data = yaml.safe_load(file)
                 packages = data["packages"]
                 for package in packages:
-                    print(package["name"], plugin_name)
                     if package["name"] == plugin_name:
-                        plugin_file = os.path.join(
-                            PACKAGE_STORE,
+                        versions = package["versions"]
+                        if version != "latest" and version not in versions:
+                            return Err(
+                                4,
+                                f"Not found target version ({version}) for {plugin_name}",
+                            )
+                        best_version = (
+                            version
+                            if version in versions
+                            else max(versions, key=version_key)
+                        )
+                        plugin_package = os.path.join(
+                            ToolsBoxEnv.CACHE_PATH,
                             source,
                             plugin_name,
-                            "0.1",
-                            f"{plugin_name}.py",
+                            best_version,
+                            plugin_name,
                         )
-                        target_file = os.path.join(PLUGIN_PATH, f"{plugin_name}.py")
-                        shutil.copyfile(plugin_file, target_file)
+                        target_path = os.path.join(
+                            ToolsBoxEnv.PLUGINS_PATH, plugin_name
+                        )
+                        if os.path.exists(target_path):
+                            shutil.rmtree(target_path)
+                        shutil.copytree(plugin_package, target_path)
                         return Ok()
 
         return Err(3, f"Plugin ({plugin_name}) not found")
@@ -55,4 +69,7 @@ class InstallPlugin(Plugin):
 
     # 构建插件特有的命令行参数
     def build_command_args(self, subparser):
-        subparser.add_argument("name", type=str, help="This is a subparser")
+        subparser.add_argument("name", type=str, help="plugin name")
+        subparser.add_argument(
+            "--version", type=str, default="latest", help="plugin version"
+        )
