@@ -1,2 +1,3 @@
 from plugin_cli.internal_plugin.install_plugin import InstallPlugin
 from plugin_cli.internal_plugin.uninstall_plugin import UnInstallPlugin
+from plugin_cli.internal_plugin.update_plugin import UpdatePlugin
