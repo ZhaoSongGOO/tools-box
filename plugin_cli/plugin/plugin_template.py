@@ -10,6 +10,7 @@ import {module}.{plugin}
 
 PLUGIN_TEMPLATE = """
 # -*- coding: utf-8 -*-
+from plugin_cli.base.error_code import ErrCode
 from plugin_cli.base.result import Err, Ok
 from plugin_cli.plugin.plugin import Plugin
 from plugin_cli.plugin.plugin_auto_register import AutoRegister
@@ -31,7 +32,7 @@ class {plugin_class_name}Plugin(Plugin):
         - Return
             Return value must be of type `Err` or `Ok`.
             eg:
-                Err(1, "error message)
+                Err(ErrCode.PLUGIN_INTERNAL_OTHER_ERR, "error message)
                 Ok()
         '''
         pass

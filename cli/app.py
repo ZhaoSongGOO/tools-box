@@ -44,7 +44,7 @@ class ToolsBox(App):
                 Log.error(
                     f"Plugin ({self.active_plugin}) run failed! with code {result.get_code()} : {result.get_msg()}"
                 )
-                exit(result.get_code())
+                exit(result.get_code().value)
 
 
 def main():

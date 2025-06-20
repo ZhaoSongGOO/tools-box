@@ -2,6 +2,7 @@
 # Licensed under the Apache License Version 2.0 that can be found in the
 # LICENSE file in the root directory of this source tree
 
+from plugin_cli.base.error_code import ErrCode
 from plugin_cli.base.log import Log
 from plugin_cli.base.result import Err
 from plugin_cli.plugin.plugin import Plugin
@@ -31,7 +32,10 @@ class ExecPlugin(Plugin):
         # 获取测试插件实例
         plugin_instance = PluginManager.get_plugin(plugin_name)
         if plugin_instance is None:
-            return Err(6, f"Plugin ({plugin_name}) not found!")
+            return Err(
+                ErrCode.SYSTEM_PLUGIN_NOT_FOUND,
+                f"Plugin ({plugin_name}) not found!",
+            )
         # 构造测试插件命令行解析器
         parser = argparse.ArgumentParser(
             plugin_name, description=plugin_instance.help()

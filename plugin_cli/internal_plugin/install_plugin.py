@@ -6,6 +6,7 @@ import os
 import yaml
 import shutil
 
+from plugin_cli.base.error_code import ErrCode
 from plugin_cli.base.log import Log
 from plugin_cli.base.result import Err, Ok
 from plugin_cli.plugin.plugin import Plugin
@@ -38,7 +39,7 @@ class InstallPlugin(Plugin):
                         versions = package["versions"]
                         if version != "latest" and version not in versions:
                             return Err(
-                                4,
+                                ErrCode.SYSTEM_PLUGIN_NOT_FOUND,
                                 f"Not found target version ({version}) for {plugin_name}",
                             )
                         best_version = (
@@ -61,7 +62,7 @@ class InstallPlugin(Plugin):
                         shutil.copytree(plugin_package, target_path)
                         return Ok()
 
-        return Err(3, f"Plugin ({plugin_name}) not found")
+        return Err(ErrCode.SYSTEM_PLUGIN_NOT_FOUND, f"Plugin ({plugin_name}) not found")
 
     # 返回插件的帮助信息
     def help(self):

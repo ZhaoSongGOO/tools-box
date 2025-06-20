@@ -2,6 +2,7 @@
 # Licensed under the Apache License Version 2.0 that can be found in the
 # LICENSE file in the root directory of this source tree
 
+from plugin_cli.base.error_code import ErrCode
 from plugin_cli.base.result import Err, Ok
 from plugin_cli.plugin.plugin import Plugin
 from plugin_cli.plugin.plugin_auto_register import AutoRegister
@@ -21,9 +22,15 @@ class CreatePlugin(Plugin):
         project_name = args.name
         version = args.version
         if not is_valid_version(version):
-            return Err(4, f"version ({version}) is illeagle!")
+            return Err(
+                ErrCode.SYSTEM_VERSION_ILLEGAL,
+                f"version ({version}) is illeagle!",
+            )
         if os.path.exists(project_name):
-            return Err(5, f"workspace ({project_name}) has existed!")
+            return Err(
+                ErrCode.SYSTEM_OTHER_ERR,
+                f"workspace ({project_name}) has existed!",
+            )
 
         workspace = os.path.join(project_name, version, project_name)
         os.makedirs(workspace)
