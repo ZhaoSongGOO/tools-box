@@ -11,11 +11,11 @@
 import os
 from plugin_cli.app.app import App
 from plugin_cli.base.log import Log
-from plugin_cli.loader.plugin_loader import plugin_loader
+from plugin_cli.loader.plugin_loader import installed_plugins_loader
 from plugin_cli.internal_plugin import *
 
 
-plugin_loader(os.path.expanduser("~/.tools-box/"))
+installed_plugins_loader()
 
 
 # 3. 定义版本回调函数

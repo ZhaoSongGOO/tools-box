@@ -6,10 +6,14 @@ import pkgutil
 import os
 import sys
 from plugin_cli.base.log import Log
+from plugin_cli.env.env import ToolsBoxEnv
 
 
-def plugin_loader(package_path: str):
-    module_path = os.path.join(package_path, "plugins")
+def installed_plugins_loader():
+    plugin_loader(ToolsBoxEnv.PLUGINS_PATH)
+
+
+def plugin_loader(module_path: str):
     if not os.path.exists(module_path):
         os.makedirs(module_path)
         return

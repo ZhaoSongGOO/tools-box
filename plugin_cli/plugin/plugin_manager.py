@@ -35,3 +35,10 @@ class PluginManager:
             return PluginManager.plugins_instances[plugin_name]["info"]
         else:
             return None
+
+    @staticmethod
+    def get_plugin(plugin_name) -> PluginInfo:
+        if plugin_name in PluginManager.plugins_instances.keys():
+            return PluginManager.plugins_instances[plugin_name]["instance"]
+        else:
+            return None
