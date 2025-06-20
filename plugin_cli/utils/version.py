@@ -15,3 +15,10 @@ def is_valid_version(raw_version: str) -> bool:
         except Exception as e:
             return False
     return True
+
+
+def get_max_version(versions: list[str]) -> str:
+    def version_key(v):
+        return tuple(map(int, v.split(".")))
+
+    return max(versions, key=version_key)
