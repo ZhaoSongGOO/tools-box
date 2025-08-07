@@ -4,7 +4,7 @@
 
 from plugin_cli.base.error_code import ErrCode
 from plugin_cli.base.log import Log
-from plugin_cli.base.result import Err
+from plugin_cli.base.result import Err, Ok
 from plugin_cli.plugin.plugin import Plugin
 from plugin_cli.plugin.plugin_manager import PluginManager
 from plugin_cli.plugin.plugin_auto_register import AutoRegister
@@ -41,9 +41,12 @@ class ExecPlugin(Plugin):
             plugin_name, description=plugin_instance.help()
         )
         plugin_instance.build_command_args(parser)
-        Log.info(f"Message from plugin {plugin_name}")
+        if plugin_args is None:
+            plugin_args = ["-h"]
         args = parser.parse_args(plugin_args)
-        return plugin_instance.accept(args)
+        Log.info(f"Message from plugin {plugin_name}")
+        plugin_instance.accept(args)
+        return Ok()
 
     # 返回插件的帮助信息
     def help(self):
